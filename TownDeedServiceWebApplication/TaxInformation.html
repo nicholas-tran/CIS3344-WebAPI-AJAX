@@ -1,0 +1,320 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Tax Information</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="style/StyleSheet1.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="btn-group">
+                <button class="btn btn-default" type="button" id="btnIndex" onclientclick="btnIndex_Click">Start Page</button>
+                <button class="btn btn-default" type="button" id="btnAddHome" onclientclick="btnAddHome_Click">Add Home</button>
+                <button class="btn btn-default" type="button" id="btnModifyOwnership" onclientclick="btnModifyOwnership_Click">Modify Ownership</button>
+                <button class="btn btn-default" type="button" id="btnDeleteHome" onclientclick="btnDeleteHome_Click">Delete Home</button>
+                <button class="btn btn-default" type="button" id="btnTaxInformation" onclientclick="btnTaxInformation_Click">Tax Information</button>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4" id="selectTaxInformation">
+                <br />
+                <table id="select">
+                    <tr>
+                        <td>
+                            <button class="btn btn-default" type="button" id="btnTaxSearchBlockAndLot" onclientclick="btnTaxSearchBlockAndLot_Click">Search By Block and Lot</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-default" type="button" id="btnTaxSearchAddress" onclientclick="btnTaxSearchAddress_Click">Search By Address</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-default" type="button" id="btnTaxSearchOwnerName" onclientclick="btnTaxSearchOwnerName_Click">Search By Owner Name</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10" id="optionTaxInformation">
+
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10" id="showTaxInformation">
+
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10" id="showTaxInformation2">
+
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10" id="messageTaxInformation">
+
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+    <script>
+
+        var homesList;
+
+        $(document).ready(function () {
+            function btnIndex_Click() {
+                window.location.replace('Index.html');
+            }
+            function btnAddHome_Click() {
+                window.location.replace('AddHome.html');
+            }
+            function btnModifyOwnership_Click() {
+                window.location.replace('ModifyOwnership.html');
+            }
+            function btnDeleteHome_Click() {
+                window.location.replace('DeleteHome.html');
+            }
+            function btnTaxInformation_Click() {
+                window.location.replace('TaxInformation.html');
+            }
+
+            function btnTaxSearchBlockAndLot_Click() {
+                $('#selectTaxInformation').hide();
+                $('#optionTaxInformation').empty();
+                $('#optionTaxInformation').append('<br /><table id="select"><tr><td>Block: <select id="ddlSelectBlock"></select></td><td>Lot: <select id="ddlSelectLot"></select></td><td><button class="btn btn-default" type="button" id="btnConfirmTaxSearchBlockAndLot" onclientclick="btnConfirmTaxSearchBlockAndLot_Click">Search</button></td><td><button class="btn btn-default" type="button" id="btnCancelSearchBlockAndLot" onclientclick="btnCancelSearchBlockAndLot_Click">Cancel</button></td></tr ></table >');
+                $(document).ready(function () {
+                    var strURL = "http://cis-iis2.temple.edu/Fall2018/CIS3344_tug26951/WebAPI/api/HomeOwnership/GetAllHomeBlock";    // URL of the Web Service followed by the name of the Web Method.
+                    // Clear the divs contents.
+                    $("#messageTaxInformation").empty();
+                    // Make an AJAX request to get a team and display the response in the appropriate div.
+                    $.ajax({
+                        type: "GET",
+                        url: strURL,
+                        contentType: "application/json; charset=utf-8", // set the data type sent to the Web Service.
+                        dataType: "json",                               // set the data type expected from the Web Service.
+                        //data: "{}",                                     // send an empty JSON object (no input required).
+                        success: function (data) {                      // set callback function used to update the page.
+                            var homes = data;
+                            $.each(homes, function (index, home) {
+                                $('#ddlSelectBlock').append('<option value="' + home.block + '">' + home.block + '</option>');
+                            });
+                        },
+                        error: function (req, status, error) {          // sets the error callback function used when an error occurs.
+                            alert("Error: " + req.responseText + " | " + status + " | " + error);
+                        }
+                    }); //end of ajax method
+                    var strURL = "http://cis-iis2.temple.edu/Fall2018/CIS3344_tug26951/WebAPI/api/HomeOwnership/GetAllHomeLot";    // URL of the Web Service followed by the name of the Web Method.
+                    // Clear the divs contents.
+                    $("#messageTaxInformation").empty();
+                    // Make an AJAX request to get a team and display the response in the appropriate div.
+                    $.ajax({
+                        type: "GET",
+                        url: strURL,
+                        contentType: "application/json; charset=utf-8", // set the data type sent to the Web Service.
+                        dataType: "json",                               // set the data type expected from the Web Service.
+                        //data: "{}",                                     // send an empty JSON object (no input required).
+                        success: function (data) {                      // set callback function used to update the page.
+                            var homes = data;
+                            $.each(homes, function (index, home) {
+                                $('#ddlSelectLot').append('<option value="' + home.lot + '">' + home.lot + '</option>');
+                            });
+                        },
+                        error: function (req, status, error) {          // sets the error callback function used when an error occurs.
+                            alert("Error: " + req.responseText + " | " + status + " | " + error);
+                        }
+                    }); //end of ajax method
+                });
+                $(document).ready(function () { $('#btnCancelSearchBlockAndLot').on("click", btnCancelSearchBlockAndLot_Click); });
+                $(document).ready(function () { $('#btnConfirmTaxSearchBlockAndLot').on("click", btnConfirmTaxSearchBlockAndLot_Click); });
+            }
+
+
+            function btnConfirmTaxSearchBlockAndLot_Click() {
+                var strURL = "http://cis-iis2.temple.edu/Fall2018/CIS3344_tug26951/WebAPI/api/TaxService/GetTaxInformation/" + $('#ddlSelectBlock').val() + "/" + $('#ddlSelectLot').val();    // URL of the Web Service followed by the name of the Web Method.
+                // Clear the divs contents.
+                $("#messageTaxInformation").empty();
+                // Make an AJAX request to get a team and display the response in the appropriate div.
+                $.ajax({
+                    type: "GET",
+                    url: strURL,
+                    contentType: "application/json; charset=utf-8", // set the data type sent to the Web Service.
+                    dataType: "json",                               // set the data type expected from the Web Service.
+                    //data: "{}",                                     // send an empty JSON object (no input required).
+                    success: function (data) {                      // set callback function used to update the page.
+                        var taxInformation = data;
+                        $('#showTaxInformation').empty();
+                        $("#showTaxInformation").append("<p>".concat("TaxInformationID: ", taxInformation.taxInformationID, "<br>HomeOwnershipID: ", taxInformation.homeOwnershipID, "<br>AccessedValue: ", taxInformation.accessedValue, "<br>LandValue: ", taxInformation.landValue, "<br>AdditionalValue: ", taxInformation.additionalValue, "<br>TaxRate: ", taxInformation.taxRate, "<br>TaxAmount: ", taxInformation.taxAmount, "</p>"));
+                    },
+                    error: function (req, status, error) {          // sets the error callback function used when an error occurs.
+                        alert("Error: " + req.responseText + " | " + status + " | " + error);
+                    }
+                }); //end of ajax method
+            }
+
+            function btnTaxSearchAddress_Click() {
+                $('#selectTaxInformation').hide();
+                $('#optionTaxInformation').empty();
+                $('#optionTaxInformation').append('<table id="select"><tr><td>Address: <select id="ddlSelectAddress"></select></td><td><button class="btn btn-default" type="button" id="btnConfirmTaxSearchAddress" onclientclick="btnConfirmTaxSearchAddress_Click">Search</button></td><td><button class="btn btn-default" type="button" id="btnCancelSearchAddress" onclientclick="btnCancelSearchAddress_Click">Cancel</button></td></tr ></table >');
+                $(document).ready(function () {
+                    var strURL = "http://cis-iis2.temple.edu/Fall2018/CIS3344_tug26951/WebAPI/api/HomeOwnership/GetAllHomeAddress";    // URL of the Web Service followed by the name of the Web Method.
+                    // Clear the divs contents.
+                    $("#messageTaxInformation").empty();
+                    // Make an AJAX request to get a team and display the response in the appropriate div.
+                    $.ajax({
+                        type: "GET",
+                        url: strURL,
+                        contentType: "application/json; charset=utf-8", // set the data type sent to the Web Service.
+                        dataType: "json",                               // set the data type expected from the Web Service.
+                        //data: "{}",                                     // send an empty JSON object (no input required).
+                        success: function (data) {                      // set callback function used to update the page.
+                            var homes = data;
+                            $.each(homes, function (index, home) {
+                                $('#ddlSelectAddress').append('<option value="' + home.address + '">' + home.address + '</option>');
+                            });
+                        },
+                        error: function (req, status, error) {          // sets the error callback function used when an error occurs.
+                            alert("Error: " + req.responseText + " | " + status + " | " + error);
+                        }
+                    }); //end of ajax method
+                });
+                $(document).ready(function () { $('#btnCancelSearchAddress').on("click", btnCancelSearchAddress_Click); });
+                $(document).ready(function () { $('#btnConfirmTaxSearchAddress').on("click", btnConfirmTaxSearchAddress_Click); });
+            }
+
+            function btnConfirmTaxSearchAddress_Click() {
+                var strURL = "http://cis-iis2.temple.edu/Fall2018/CIS3344_tug26951/WebAPI/api/TaxService/GetTaxInformationByAddress/" + $('#ddlSelectAddress').val();    // URL of the Web Service followed by the name of the Web Method.
+                // Clear the divs contents.
+                $("#messageTaxInformation").empty();
+                // Make an AJAX request to get a team and display the response in the appropriate div.
+                $.ajax({
+                    type: "GET",
+                    url: strURL,
+                    contentType: "application/json; charset=utf-8", // set the data type sent to the Web Service.
+                    dataType: "json",                               // set the data type expected from the Web Service.
+                    //data: "{}",                                     // send an empty JSON object (no input required).
+                    success: function (data) {                      // set callback function used to update the page.
+                        var taxInformation = data;
+                        $('#showTaxInformation').empty();
+                        $("#showTaxInformation").append("<p>".concat("TaxInformationID: ", taxInformation.taxInformationID, "<br>HomeOwnershipID: ", taxInformation.homeOwnershipID, "<br>AccessedValue: ", taxInformation.accessedValue, "<br>LandValue: ", taxInformation.landValue, "<br>AdditionalValue: ", taxInformation.additionalValue, "<br>TaxRate: ", taxInformation.taxRate, "<br>TaxAmount: ", taxInformation.taxAmount, "</p>"));
+                    },
+                    error: function (req, status, error) {          // sets the error callback function used when an error occurs.
+                        alert("Error: " + req.responseText + " | " + status + " | " + error);
+                    }
+                }); //end of ajax method
+            }
+
+            function btnTaxSearchOwnerName_Click() {
+                $('#selectTaxInformation').hide();
+                $('#optionTaxInformation').empty();
+                $('#optionTaxInformation').append('<table id="select"><tr><td>Owner Name: <select id="ddlSelectOwnerName"></select></td><td><button class="btn btn-default" type="button" id="btnConfirmTaxSearchOwnerName" onclientclick="btnConfirmTaxSearchOwnerName_Click">Search</button></td><td><button class="btn btn-default" type="button" id="btnCancelSearchOwnerName" onclientclick="btnCancelSearchOwnerName_Click">Cancel</button></td></tr ></table >');
+                $(document).ready(function () {
+                    var strURL = "http://cis-iis2.temple.edu/Fall2018/CIS3344_tug26951/WebAPI/api/HomeOwnership/GetAllHomeOwners";    // URL of the Web Service followed by the name of the Web Method.
+                    // Clear the divs contents.
+                    $("#messageTaxInformation").empty();
+                    // Make an AJAX request to get a team and display the response in the appropriate div.
+                    $.ajax({
+                        type: "GET",
+                        url: strURL,
+                        contentType: "application/json; charset=utf-8", // set the data type sent to the Web Service.
+                        dataType: "json",                               // set the data type expected from the Web Service.
+                        //data: "{}",                                     // send an empty JSON object (no input required).
+                        success: function (data) {                      // set callback function used to update the page.
+                            var homes = data;
+                            $.each(homes, function (index, home) {
+                                $('#ddlSelectOwnerName').append('<option value="' + home.ownerName + '">' + home.ownerName + '</option>');
+                            });
+                        },
+                        error: function (req, status, error) {          // sets the error callback function used when an error occurs.
+                            alert("Error: " + req.responseText + " | " + status + " | " + error);
+                        }
+                    }); //end of ajax method
+                });
+                $(document).ready(function () { $('#btnCancelSearchOwnerName').on("click", btnCancelSearchOwnerName_Click); });
+                $(document).ready(function () { $('#btnConfirmTaxSearchOwnerName').on("click", btnConfirmTaxSearchOwnerName_Click); });
+            }
+
+            function btnConfirmTaxSearchOwnerName_Click() {
+                var strURL = "http://cis-iis2.temple.edu/Fall2018/CIS3344_tug26951/WebAPI/api/TaxService/GetHomeandTaxInformationByOwnerName/" + $('#ddlSelectOwnerName').val();    // URL of the Web Service followed by the name of the Web Method.
+                // Clear the divs contents.
+                $("#messageTaxInformation").empty();
+                // Make an AJAX request to get a team and display the response in the appropriate div.
+                $.ajax({
+                    type: "GET",
+                    url: strURL,
+                    contentType: "application/json; charset=utf-8", // set the data type sent to the Web Service.
+                    dataType: "json",                               // set the data type expected from the Web Service.
+                    //data: "{}",                                     // send an empty JSON object (no input required).
+                    success: function (data) {                      // set callback function used to update the page.
+                        var homes = data;
+                        $('#showTaxInformation').empty();
+                        $('#showTaxInformation').append('<select id="ddlSelectHomeTaxInformation"></select><button type ="button" id ="btnSelectHomeTaxInformation" onclientclick ="btnSelectHomeTaxInformation_Click" >Confirm</button >');
+                        $(document).ready(function () { $('#btnSelectHomeTaxInformation').on("click", btnSelectHomeTaxInformation_Click); });
+                        homesList = new Array(); 
+                        $.each(homes, function (index, home) {
+                            homesList.push(home);
+                            $('#ddlSelectHomeTaxInformation').append('<option value="' + home.homeOwnershipID + '">' + home.homeOwnershipID + '</option>')
+                        });
+                        //$.each(homes, function (index, home) {
+                            //$("#showTaxInformation").append("<p>".concat("<br>HomeOwnershipID: ", home.homeOwnershipID, "<br>Address: ", home.address, "<br>Lot: ", home.lot, "<br>Block: ", home.block, "<br>DateOfSale: ", home.dateOfSale, "<br>SalePrice: ", home.salePrice, "<br>TaxInformationID: ", home.taxInformation.taxInformationID, "<br>HomeOwnershipID: ", home.taxInformation.homeOwnershipID, "<br>AccessedValue: ", home.taxInformation.accessedValue, "<br>LandValue: ", home.taxInformation.landValue, "<br>AdditionalValue: ", home.taxInformation.additionalValue, "<br>TaxRate: ", home.taxInformation.taxRate, "<br>TaxAmount: ", home.taxInformation.taxAmount, "</p>"));
+                        //});
+                    },
+                    error: function (req, status, error) {          // sets the error callback function used when an error occurs.
+                        alert("Error: " + req.responseText + " | " + status + " | " + error);
+                    }
+                }); //end of ajax method
+            }
+
+            function btnSelectHomeTaxInformation_Click() {
+                $('#showTaxInformation2').empty();
+                for (var i = 0; i < homesList.length; i++) {
+                    if (homesList[i].homeOwnershipID == $('#ddlSelectHomeTaxInformation').val()) {
+                        $('#showTaxInformation2').append("<br>HomeOwnershipID: ", homesList[i].homeOwnershipID, "<br>Address: ", homesList[i].address, "<br>Lot: ", homesList[i].lot, "<br>Block: ", homesList[i].block, "<br>DateOfSale: ", homesList[i].dateOfSale, "<br>SalePrice: ", homesList[i].salePrice, "<br>TaxInformationID: ", homesList[i].taxInformation.taxInformationID, "<br>HomeOwnershipID: ", homesList[i].taxInformation.homeOwnershipID, "<br>AccessedValue: ", homesList[i].taxInformation.accessedValue, "<br>LandValue: ", homesList[i].taxInformation.landValue, "<br>AdditionalValue: ", homesList[i].taxInformation.additionalValue, "<br>TaxRate: ", homesList[i].taxInformation.taxRate, "<br>TaxAmount: ", homesList[i].taxInformation.taxAmount);
+                    }
+                }
+            }
+
+            function btnCancelSearchBlockAndLot_Click() {
+                window.location.replace('TaxInformation.html');
+            }
+            function btnCancelSearchAddress_Click() {
+                window.location.replace('TaxInformation.html');
+            }
+            function btnCancelSearchOwnerName_Click() {
+                window.location.replace('TaxInformation.html');
+            }
+
+            $(document).ready(function () { $('#btnIndex').on("click", btnIndex_Click); });
+            $(document).ready(function () { $('#btnAddHome').on("click", btnAddHome_Click); });
+            $(document).ready(function () { $('#btnModifyOwnership').on("click", btnModifyOwnership_Click); });
+            $(document).ready(function () { $('#btnDeleteHome').on("click", btnDeleteHome_Click); });
+            $(document).ready(function () { $('#btnTaxInformation').on("click", btnTaxInformation_Click); });
+
+            $(document).ready(function () { $('#btnTaxSearchBlockAndLot').on("click", btnTaxSearchBlockAndLot_Click); });
+            $(document).ready(function () { $('#btnTaxSearchAddress').on("click", btnTaxSearchAddress_Click); });
+            $(document).ready(function () { $('#btnTaxSearchOwnerName').on("click", btnTaxSearchOwnerName_Click); });
+            //$(document).ready(function () { $('#btnCancelSearchBlockAndLot, #btnCancelSearchAddress, #btnCancelSearchOwnerName').on("click", btnCancelSearch_Click); });
+        });
+    </script>
+</body>
+</html>

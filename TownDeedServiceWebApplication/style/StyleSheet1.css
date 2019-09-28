@@ -1,0 +1,74 @@
+﻿body {
+    background: url(../images/background.jpg) no-repeat center;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: center;
+}
+
+#main {
+    background-color: white;
+    text-align: center;
+    border: solid;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#select {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td {
+    white-space: nowrap;
+    width: 237px;
+    vertical-align: top;
+}
+#selectTaxInformation {
+    background-color: white;
+    text-align: center;
+    border: solid;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#optionTaxInformation {
+    background-color: white;
+    text-align: center;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#showTaxInformation {
+    background-color: white;
+    text-align: center;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#showTaxInformation2 {
+    background-color: white;
+    text-align: center;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#messageTaxInformation {
+    background-color: white;
+    text-align: center;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}

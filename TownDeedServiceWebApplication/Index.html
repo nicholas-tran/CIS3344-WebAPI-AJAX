@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Homepage</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="style/StyleSheet1.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="btn-group">
+                <button class="btn btn-default" type="button" id="btnIndex" onclientclick="btnIndex_Click">Start Page</button>
+                <button class="btn btn-default" type="button" id="btnAddHome" onclientclick="btnAddHome_Click">Add Home</button>
+                <button class="btn btn-default" type="button" id="btnModifyOwnership" onclientclick="btnModifyOwnership_Click">Modify Ownership</button>
+                <button class="btn btn-default" type="button" id="btnDeleteHome" onclientclick="btnDeleteHome_Click">Delete Home</button>
+                <button class="btn btn-default" type="button" id="btnTaxInformation" onclientclick="btnTaxInformation_Click">Tax Information</button>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            function btnIndex_Click() {
+                window.location.replace('Index.html');
+            }
+            function btnAddHome_Click() {
+                window.location.replace('AddHome.html');
+            }
+            function btnModifyOwnership_Click() {
+                window.location.replace('ModifyOwnership.html');
+            }
+            function btnDeleteHome_Click() {
+                window.location.replace('DeleteHome.html');
+            }
+            function btnTaxInformation_Click() {
+                window.location.replace('TaxInformation.html');
+            }
+            $(document).ready(function () { $('#btnIndex').on("click", btnIndex_Click); });
+            $(document).ready(function () { $('#btnAddHome').on("click", btnAddHome_Click); });
+            $(document).ready(function () { $('#btnModifyOwnership').on("click", btnModifyOwnership_Click); });
+            $(document).ready(function () { $('#btnDeleteHome').on("click", btnDeleteHome_Click); });
+            $(document).ready(function () { $('#btnTaxInformation').on("click", btnTaxInformation_Click); });
+        });
+    </script>
+</body>
+</html>

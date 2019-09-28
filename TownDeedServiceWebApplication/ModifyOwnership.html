@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Modify Ownership</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="style/StyleSheet1.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="btn-group">
+                <button class="btn btn-default" type="button" id="btnIndex" onclientclick="btnIndex_Click">Start Page</button>
+                <button class="btn btn-default" type="button" id="btnAddHome" onclientclick="btnAddHome_Click">Add Home</button>
+                <button class="btn btn-default" type="button" id="btnModifyOwnership" onclientclick="btnModifyOwnership_Click">Modify Ownership</button>
+                <button class="btn btn-default" type="button" id="btnDeleteHome" onclientclick="btnDeleteHome_Click">Delete Home</button>
+                <button class="btn btn-default" type="button" id="btnTaxInformation" onclientclick="btnTaxInformation_Click">Tax Information</button>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="container-fluid">
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4" id="main">
+                <div id="selectModifyHomeOwnership">
+                    <br />
+                    <table id="select">
+                        <tr>
+                            <td>
+                                Select home:
+                            </td>
+                            <td>
+                                <select id="ddlSelectModifyHomeOwnership"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Select owner id:
+                            </td>
+                            <td>
+                                <select id="ddlSelectHomeOwner"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Enter sale price:
+                            </td>
+                            <td>
+                                <input type="text" id="txtSalePrice" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn btn-default" type="button" id="btnConfirmModifyHomeOwnership" onclientclick="btnConfirmModifyHomeOwnership_Click">Confirm</button>
+                            </td>
+                            <td>
+                                <button class="btn btn-default" type="button" id="btnCancelModifyHomeOwnership" onclientclick="btnCancelModifyHomeOwnership_Click">Cancel</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                </div>
+            </div>
+            <div id="messageModifyHomeOwnership">
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+
+            function btnIndex_Click() {
+                window.location.replace('Index.html');
+            };
+            function btnAddHome_Click() {
+                window.location.replace('AddHome.html');
+            };
+            function btnModifyOwnership_Click() {
+                window.location.replace('ModifyOwnership.html');
+            };
+            function btnDeleteHome_Click() {
+                window.location.replace('DeleteHome.html');
+            };
+            function btnTaxInformation_Click() {
+                window.location.replace('TaxInformation.html');
+            };
+
+            $(document).ready(function () {
+                var strURL = "http://cis-iis2.temple.edu/Fall2018/CIS3344_tug26951/WebAPI/api/HomeOwnership/GetAllHomeIDs";    // URL of the Web Service followed by the name of the Web Method.
+                // Clear the divs contents.
+                $("#messageModifyHomeOwnership").empty();
+                // Make an AJAX request to get a team and display the response in the appropriate div.
+                $.ajax({
+                    type: "GET",
+                    url: strURL,
+                    contentType: "application/json; charset=utf-8", // set the data type sent to the Web Service.
+                    dataType: "json",                               // set the data type expected from the Web Service.
+                    //data: "{}",                                     // send an empty JSON object (no input required).
+                    success: function (data) {                      // set callback function used to update the page.
+                        var homes = data;
+                        $.each(homes, function (index, home) {
+                            $('#ddlSelectModifyHomeOwnership').append('<option value="' + home.homeOwnershipID + '">' + home.homeOwnershipID + '</option>');
+                        });
+                    },
+                    error: function (req, status, error) {          // sets the error callback function used when an error occurs.
+                        alert("Error: " + req.responseText + " | " + status + " | " + error);
+                    }
+                }); //end of ajax method
+            });
+
+            $(document).ready(function () {
+                var strURL = "http://cis-iis2.temple.edu/Fall2018/CIS3344_tug26951/WebAPI/api/HomeOwnership/GetAllHomeOwners";    // URL of the Web Service followed by the name of the Web Method.
+                // Clear the divs contents.
+                $("#messageModifyHomeOwnership").empty();
+                // Make an AJAX request to get a team and display the response in the appropriate div.
+                $.ajax({
+                    type: "GET",
+                    url: strURL,
+                    contentType: "application/json; charset=utf-8", // set the data type sent to the Web Service.
+                    dataType: "json",                               // set the data type expected from the Web Service.
+                    //data: "{}",                                     // send an empty JSON object (no input required).
+                    success: function (data) {                      // set callback function used to update the page.
+                        var owners = data;
+                        $.each(owners, function (index, owner) {
+                            $('#ddlSelectHomeOwner').append('<option value="' + owner.ownerID + '">' + owner.ownerName + '</option>');
+                        });
+                    },
+                    error: function (req, status, error) {          // sets the error callback function used when an error occurs.
+                        alert("Error: " + req.responseText + " | " + status + " | " + error);
+                    }
+                }); //end of ajax method
+            });
+
+            function btnConfirmModifyHomeOwnership_Click() {
+                if (isNaN(parseFloat($("#txtSalePrice").val()))) {
+                    $("#messageModifyHomeOwnership").empty();
+                    $("#messageModifyHomeOwnership").append("Sale price is not a number.");
+                    return;
+                }
+                var strURL = "http://cis-iis2.temple.edu/Fall2018/CIS3344_tug26951/WebAPI/api/HomeOwnership/UpdateHome";    // URL of the Web Service followed by the name of the Web Method.
+                // Clear the divs contents.
+                $("#messageModifyHomeOwnership").empty();
+                var home = new Object();
+                home.homeOwnershipID = $("#ddlSelectModifyHomeOwnership").val();
+                home.ownerID = $("#ddlSelectHomeOwner").val();
+                home.dateOfSale = Date.now;
+                home.salePrice = $("#txtSalePrice").val();
+                var strInput = JSON.stringify(home);
+                // Make an AJAX request to get a team and display the response in the appropriate div.
+                $.ajax({
+                    type: "PUT",
+                    url: strURL,
+                    contentType: "application/json", // set the data type sent to the Web Service.
+                    dataType: "json",                               // set the data type expected from the Web Service.
+                    data: strInput,                                 // send an empty JSON object (no input required).
+                    success: function (data) {                      // set callback function used to update the page/
+                        var result = data;
+                        if (result == true) {
+                            $("#messageModifyHomeOwnership").append("The record was successfully updated.");
+                        }
+                        else {
+                            $("#messageModifyHomeOwnership").append("The record was not updated. Try again later.");
+                        }
+                    },
+                    error: function (req, status, error) {          // sets the error callback function used when an error occurs.
+                        alert("Error: " + req.responseText + " | " + status + " | " + error);
+                    }
+                }); //end of ajax method
+            };
+
+            function btnCancelModifyHomeOwnership_Click() {
+                window.location.replace("ModifyOwnership.html");
+            };
+            $(document).ready(function () { $('#btnIndex').on("click", btnIndex_Click); });
+            $(document).ready(function () { $('#btnAddHome').on("click", btnAddHome_Click); });
+            $(document).ready(function () { $('#btnModifyOwnership').on("click", btnModifyOwnership_Click); });
+            $(document).ready(function () { $('#btnDeleteHome').on("click", btnDeleteHome_Click); });
+            $(document).ready(function () { $('#btnTaxInformation').on("click", btnTaxInformation_Click); });
+
+            $(document).ready(function () { $('#btnCancelModifyHomeOwnership').on("click", btnCancelModifyHomeOwnership_Click); });
+            $(document).ready(function () { $('#btnConfirmModifyHomeOwnership').on("click", btnConfirmModifyHomeOwnership_Click); });
+        });
+    </script>
+</body>
+</html>

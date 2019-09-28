@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Add Home</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="style/StyleSheet1.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="btn-group">
+                <button class="btn btn-default" type="button" id="btnIndex" onclientclick="btnIndex_Click">Start Page</button>
+                <button class="btn btn-default" type="button" id="btnAddHome" onclientclick="btnAddHome_Click">Add Home</button>
+                <button class="btn btn-default" type="button" id="btnModifyOwnership" onclientclick="btnModifyOwnership_Click">Modify Ownership</button>
+                <button class="btn btn-default" type="button" id="btnDeleteHome" onclientclick="btnDeleteHome_Click">Delete Home</button>
+                <button class="btn btn-default" type="button" id="btnTaxInformation" onclientclick="btnTaxInformation_Click">Tax Information</button>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="container-fluid" id="content">
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4" id="main">
+                <div id="beginAddHome">
+                    <br />
+                    Add new home:<button class="btn btn-basic" type="button" id="btnAddNewHome" onclientclick="btnAddNewHome_Click">Begin</button>
+                    <br />
+                    <br />
+                </div>
+                <div id="inputAddHome">
+
+                </div>
+                <div id="messageAddHome">
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+
+                function btnIndex_Click() {
+                    window.location.replace('Index.html');
+                }
+                function btnAddHome_Click() {
+                    window.location.replace('AddHome.html');
+                }
+                function btnModifyOwnership_Click() {
+                    window.location.replace('ModifyOwnership.html');
+                }
+                function btnDeleteHome_Click() {
+                    window.location.replace('DeleteHome.html');
+                }
+                function btnTaxInformation_Click() {
+                    window.location.replace('TaxInformation.html');
+                }
+                function btnAddNewHome_Click() {
+                    $('#beginAddHome').hide();
+                    $('#inputAddHome').empty();
+                    $('#inputAddHome').append('<br /><table><tr><td>Lot:</td><td><input type="text" id="txtLot" /></td></tr><tr><td>Block:</td><td><input type="text" id="txtBlock" /></td></tr><tr><td><button class="btn btn-default" type="button" id="btnConfirmAddHome" onclientclick="btnConfirmAddHome_Click">Confirm</button></td><td><button class="btn btn-default" type="button" id="btnCancelAddHome" onclientclick="btnCancelAddHome_Click">Cancel</button></td></tr></table ><br />');
+                    //<tr><td>Address:</td><td> <select id="ddlAddress"><option value = "1st Street" > 1st Street</option><option value="2nd Street">2nd Street</option><option value="3rd Street">3rd Street</option><option value="4th Street">4th Street</option><option value="4th Street">5th Street</option></select></td></tr>
+                    $(document).ready(function () { $('#btnConfirmAddHome').on("click", btnConfirmAddHome_Click); });
+                    $(document).ready(function () { $('#btnCancelAddHome').on("click", btnCancelAddHome_Click); });
+                }
+                function btnConfirmAddHome_Click() {
+                    if (isNaN($("#txtLot").val())) {
+                        $("#messageAddHome").empty();
+                        $("#messageAddHome").append('Lot is not a number.');
+                        return;
+                    }
+                    if (isNaN($("#txtBlock").val())) {
+                        $("#messageAddHome").empty();
+                        $("#messageAddHome").append('Block is not a number.');
+                        return;
+                    }
+                    if ($("#txtLot").val() == "") {
+                        $("#messageAddHome").empty();
+                        $("#messageAddHome").append('Lot is not a number.');
+                        return;
+                    }
+                    if ($("#txtBlock").val() == "") {
+                        $("#messageAddHome").empty();
+                        $("#messageAddHome").append('Block is not a number.');
+                        return;
+                    }
+                    // Clear the divs contents.
+                    $("#messageAddHome").empty();
+                    var home = new Object();
+                    home.Lot = $("#txtLot").val();
+                    home.Block = $("#txtBlock").val();
+                    var address = $("#txtBlock").val();
+                    if (address.charAt(0) == '1') {
+                        home.Address = "1st Street";
+                    }
+                    else if (address.charAt(0) == '2') {
+                        home.Address = "2nd Street";
+                    }
+                    else if (address.charAt(0) == '3') {
+                        home.Address = "3rd Street";
+                    }
+                    else if (address.charAt(0) == '4') {
+                        home.Address = "4th Street";
+                    }
+                    else if (address.charAt(0) == '5') {
+                        home.Address = "5th Street";
+                    }
+                    else if (address.charAt(0) == '6') {
+                        home.Address = "6th Street";
+                    }
+                    else if (address.charAt(0) == '7') {
+                        home.Address = "7th Street";
+                    }
+                    else if (address.charAt(0) == '8') {
+                        home.Address = "8th Street";
+                    }
+                    else if (address.charAt(0) == '9') {
+                        home.Address = "9th Street";
+                    }
+                    else if (address.charAt(0) == '0') {
+                        home.Address = "Broad Street";
+                    }
+                    //home.Address = $("#ddlAddress").val();
+                    var strInput = JSON.stringify(home);
+                    var strURL = "http://cis-iis2.temple.edu/Fall2018/CIS3344_tug26951/WebAPI/api/HomeOwnership/AddHome";    // URL of the Web Service followed by the name of the Web Method.
+                    $.ajax({
+                        type: "POST",
+                        crossDomain: true,
+                        url: strURL,
+                        contentType: "application/json", // set the data type sent to the Web Service.
+                        dataType: "json",                               // set the data type expected from the Web Service.
+                        data: strInput,                                 // send an empty JSON object (no input required).
+                        success: function (data) {                      // set callback function used to update the page/
+                            var result = data;
+                            if (result == true) {
+                                $("#messageAddHome").append("The record was successfully added to the database.");
+                                $('#beginAddHome').show();
+                                $('#inputAddHome').empty();
+                            }
+                            else {
+                                $("#messageAddHome").append("The record was not added to the database. Duplicate house detected.");
+                            }
+                        },
+                        error: function (req, status, error) {          // sets the error callback function used when an error occurs.
+                            alert("Error: " + req.responseText + " | " + status + " | " + error);
+                        }
+                    }); //end of ajax method
+                }
+
+                function btnCancelAddHome_Click() {
+                    $('#beginAddHome').show();
+                    $('#inputAddHome').empty();
+                }
+
+                $(document).ready(function () { $('#btnIndex').on("click", btnIndex_Click); });
+                $(document).ready(function () { $('#btnAddHome').on("click", btnAddHome_Click); });
+                $(document).ready(function () { $('#btnModifyOwnership').on("click", btnModifyOwnership_Click); });
+                $(document).ready(function () { $('#btnDeleteHome').on("click", btnDeleteHome_Click); });
+                $(document).ready(function () { $('#btnTaxInformation').on("click", btnTaxInformation_Click); });
+
+                $(document).ready(function () { $('#btnAddNewHome').on("click", btnAddNewHome_Click); });
+            });
+        </script>
+</body>
+</html>
